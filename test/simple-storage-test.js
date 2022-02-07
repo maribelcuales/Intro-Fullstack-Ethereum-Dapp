@@ -22,4 +22,15 @@ describe('SimpleStorage contract', function () {
 
     expect(storedValue).to.equal(456)
   })
+
+  it('Deployment should assign the total supply of tokens to the owner', async function () {
+    const [owner] = await ethers.getSigners();
+
+    const SimpleStorage = await ethers.getContractFactory('SimpleStorage');
+
+    const simpleStorageToken = await SimpleStorage.deploy();
+
+    const ownerBalance = await simpleStorageToken.balanceOf(owner.address);
+    expect(await simpleStorageToken.totalSupply()).to.equal(ownerBalance);
+  })
 })
